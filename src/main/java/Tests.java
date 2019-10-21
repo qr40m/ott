@@ -10,6 +10,7 @@ import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Tests {
+    //TODO конфигурацию и переменные в отдельный класс
     @BeforeAll
     public static void setUp(){
         Configuration.browser = "firefox";
@@ -37,20 +38,13 @@ public class Tests {
                 .header("Connection", "keep-alive")
                 .header("cache-control", "no-cache")
                 .asString();
-        if (response.getStatus()==200){
+        if (response.getStatus()==200){ //проверяем статус ответа, если ОК, то проверяем на наличие в ответе наш город
             assertEquals(true,response.getBody().contains(city));
         }
         else {
-            System.out.println("Error: HTTP code is NOT 200");
+            System.out.println("Error: HTTP code is NOT 200");//если ответ не 200, то тест не пройден
             assertEquals(200, response.getStatus());
         }
-        switch (response.getStatus()){
-            case (200):
-
-
-        }
-
-
     }
 
     @Test
@@ -75,10 +69,10 @@ public class Tests {
                 .asString();
         System.out.println(response.getStatus());
         switch (response.getStatus()){
-            case(301):
+            case(301)://проверка на редирект 301
                 assertEquals(301, response.getStatus());
                 Unirest.config().reset();
-            case(302):
+            case(302): //проверка на редирект 302
                 assertEquals(301, response.getStatus());
                 Unirest.config().reset();
                 }
@@ -86,6 +80,6 @@ public class Tests {
     @Test
     public void urlCheck() {
         open("http://onetwotrip.com");
-        assertEquals(true,WebDriverRunner.url().contains("https://www.onetwotrip.com"));
+        assertEquals(true,WebDriverRunner.url().contains("https://www.onetwotrip.com")); //проверяем урл после редиректа
            }
 }
